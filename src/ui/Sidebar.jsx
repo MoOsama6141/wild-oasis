@@ -11,11 +11,26 @@ const StyledSidebar = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
+
+  @media (max-width: 1024px) {
+    grid-row: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 26rem;
+    max-width: 80vw;
+    height: 100vh;
+    z-index: 100;
+    transform: translateX(${(props) => (props.$open ? "0" : "-100%")});
+    transition: transform 0.3s ease-in-out;
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+  }
 `;
 
-function Sidebar() {
+function Sidebar({ isOpen }) {
   return (
-    <StyledSidebar>
+    <StyledSidebar $open={isOpen}>
       <Logo />
       <MainNav />
     </StyledSidebar>
