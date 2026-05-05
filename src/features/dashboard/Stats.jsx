@@ -26,24 +26,28 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
   return (
     <>
       <Stat
+        index={0}
         title="Bookings"
         color="blue"
         icon={<HiOutlineBriefcase />}
         value={numBookings}
       />
       <Stat
+        index={1}
         title="Sales"
         color="green"
         icon={<HiOutlineBanknotes />}
         value={formatCurrency(sales)}
       />
       <Stat
+        index={2}
         title="Check ins"
         color="indigo"
         icon={<HiOutlineCalendarDays />}
         value={checkins}
       />
       <Stat
+        index={3}
         title="Occupancy rate"
         color="yellow"
         icon={<HiOutlineChartBar />}

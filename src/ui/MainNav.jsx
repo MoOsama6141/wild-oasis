@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import {
   HiOutlineCalendarDays,
   HiOutlineCog6Tooth,
@@ -17,6 +18,7 @@ const NavList = styled.ul`
 const StyledNavLink = styled(NavLink)`
   &:link,
   &:visited {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 1.2rem;
@@ -25,68 +27,92 @@ const StyledNavLink = styled(NavLink)`
     font-size: 1.6rem;
     font-weight: 500;
     padding: 1.2rem 2.4rem;
-    transition: all 0.3s;
+    border-radius: var(--border-radius-sm);
+    transition: color 0.3s;
   }
 
-  /* This works because react-router places the active class on the active NavLink */
-  &:hover,
-  &:active,
+  &:hover {
+    color: var(--color-grey-800);
+  }
+
   &.active:link,
   &.active:visited {
     color: var(--color-grey-800);
-    background-color: var(--color-grey-50);
-    border-radius: var(--border-radius-sm);
   }
 
   & svg {
+    position: relative;
     width: 2.4rem;
     height: 2.4rem;
     color: var(--color-grey-400);
-    transition: all 0.3s;
+    transition: color 0.3s, transform 0.3s;
   }
 
-  &:hover svg,
-  &:active svg,
+  &:hover svg {
+    color: var(--color-brand-600);
+    transform: scale(1.08);
+  }
+
   &.active:link svg,
   &.active:visited svg {
     color: var(--color-brand-600);
   }
+
+  & span {
+    position: relative;
+  }
 `;
+
+const ActiveBg = styled(motion.div)`
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-grey-50);
+  border-radius: var(--border-radius-sm);
+  z-index: 0;
+`;
+
+function NavItem({ to, icon, label }) {
+  return (
+    <li>
+      <StyledNavLink to={to}>
+        {({ isActive }) => (
+          <>
+            {isActive && (
+              <ActiveBg
+                layoutId="activeNav"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            {icon}
+            <span>{label}</span>
+          </>
+        )}
+      </StyledNavLink>
+    </li>
+  );
+}
 
 function MainNav() {
   return (
     <nav>
       <NavList>
-        <li>
-          <StyledNavLink to="/dashboard">
-            <HiOutlineHome />
-            <span>Home</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/bookings">
-            <HiOutlineCalendarDays />
-            <span>Bookings</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/cabins">
-            <HiOutlineHomeModern />
-            <span>Cabins</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/users">
-            <HiOutlineUsers />
-            <span>Users</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/settings">
-            <HiOutlineCog6Tooth />
-            <span>Settings</span>
-          </StyledNavLink>
-        </li>
+        <NavItem to="/dashboard" icon={<HiOutlineHome />} label="Home" />
+        <NavItem
+          to="/bookings"
+          icon={<HiOutlineCalendarDays />}
+          label="Bookings"
+        />
+        <NavItem
+          to="/cabins"
+          icon={<HiOutlineHomeModern />}
+          label="Cabins"
+        />
+        <NavItem to="/users" icon={<HiOutlineUsers />} label="Users" />
+        <NavItem
+          to="/settings"
+          icon={<HiOutlineCog6Tooth />}
+          label="Settings"
+        />
       </NavList>
     </nav>
   );

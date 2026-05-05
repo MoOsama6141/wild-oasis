@@ -1,11 +1,13 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
-// const test = css`
-//   text-align: center;
-//   ${10 > 5 && "background-color: yellow"}
-// `;
+const headingIn = keyframes`
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
 
 const Heading = styled.h1`
+  animation: ${headingIn} 0.45s ease-out both;
+
   ${(props) =>
     props.as === "h1" &&
     css`

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import { format, isToday } from "date-fns";
 import {
   HiOutlineChatBubbleBottomCenterText,
@@ -12,7 +13,11 @@ import { Flag } from "../../ui/Flag";
 
 import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 
-const StyledBookingDataBox = styled.section`
+const StyledBookingDataBox = styled(motion.section).attrs(() => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.45, ease: "easeOut" },
+}))`
   /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);

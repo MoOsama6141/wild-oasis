@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { AnimatePresence, motion } from "framer-motion";
+
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import styled from "styled-components";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -32,6 +34,9 @@ const Main = styled.main`
 const Container = styled.div`
   max-width: 120rem;
   margin: 0 auto;
+`;
+
+const PageWrap = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
@@ -41,15 +46,14 @@ const Container = styled.div`
   }
 `;
 
-const Backdrop = styled.div`
-  display: none;
+const Backdrop = styled(motion.div)`
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 90;
 
-  @media (max-width: 1024px) {
-    display: ${(props) => (props.$open ? "block" : "none")};
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.45);
-    z-index: 90;
+  @media (min-width: 1025px) {
+    display: none;
   }
 `;
 
@@ -65,10 +69,32 @@ function AppLayout() {
     <StyledAppLayout>
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-      <Backdrop $open={isSidebarOpen} onClick={() => setIsSidebarOpen(false)} />
+
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <Backdrop
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
       <Main>
         <Container>
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <PageWrap
+              key={location.pathname}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
+              <Outlet />
+            </PageWrap>
+          </AnimatePresence>
         </Container>
       </Main>
     </StyledAppLayout>

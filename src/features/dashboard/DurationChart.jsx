@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 import Heading from "../../ui/Heading";
 import {
   Cell,
@@ -10,7 +11,12 @@ import {
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
 
-const ChartBox = styled.div`
+const ChartBox = styled(motion.div).attrs(() => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  whileHover: { y: -2, transition: { duration: 0.15 } },
+  transition: { duration: 0.4, ease: "easeOut", delay: 0.1 },
+}))`
   /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
@@ -18,6 +24,12 @@ const ChartBox = styled.div`
 
   padding: 2.4rem 3.2rem;
   grid-column: 3 / span 2;
+
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
 
   @media (max-width: 1024px) {
     grid-column: 1 / -1;

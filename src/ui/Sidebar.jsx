@@ -22,7 +22,7 @@ const StyledSidebar = styled.aside`
     height: 100vh;
     z-index: 100;
     transform: translateX(${(props) => (props.$open ? "0" : "-100%")});
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: var(--shadow-lg);
     overflow-y: auto;
   }

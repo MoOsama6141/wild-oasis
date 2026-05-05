@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 import Heading from "../../ui/Heading";
 import Row from "../../ui/Row";
@@ -7,7 +8,12 @@ import { useTodayActivity } from "./useTodayActivity";
 import Spinner from "../../ui/Spinner";
 import TodayItem from "./TodayItem";
 
-const StyledToday = styled.div`
+const StyledToday = styled(motion.div).attrs(() => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  whileHover: { y: -2, transition: { duration: 0.15 } },
+  transition: { duration: 0.4, ease: "easeOut" },
+}))`
   /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
@@ -19,6 +25,12 @@ const StyledToday = styled.div`
   gap: 2.4rem;
   grid-column: 1 / span 2;
   padding-top: 2.4rem;
+
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
 
   @media (max-width: 1024px) {
     grid-column: 1 / -1;

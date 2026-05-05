@@ -52,6 +52,15 @@ const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
+  transition: background-color 0.2s, transform 0.12s, box-shadow 0.2s;
+
+  &:hover:not(:disabled) {
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
 
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}
